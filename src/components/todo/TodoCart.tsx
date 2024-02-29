@@ -1,21 +1,38 @@
-import { ReactNode } from "react";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hook";
-import { removeTodo } from "@/redux/features/todoSlice";
+import { removeTodo, toggleState } from "@/redux/features/todoSlice";
 
 type TTodosDetails = {
   id: number;
   task: string;
   description: string;
+  isCompleted?: boolean;
 };
 
-const TodoCart = ({ task, description, id }: TTodosDetails) => {
+const TodoCart = ({ task, description, id, isCompleted }: TTodosDetails) => {
   const dispatch = useAppDispatch();
+
+  const handleToggle = () => {
+    dispatch(toggleState(id));
+  };
   return (
     <div className="bg-white p-2 font-semibold  flex justify-between items-center rounded-md border ">
-      <input type="checkbox" name="" id="" />
+      <input
+        onChange={handleToggle}
+        type="checkbox"
+        name="completed"
+        id="completed"
+      />
       <p>{task}</p>
-      <p>{id}</p>
+      {isCompleted ? (
+        <div>
+          <p className="text-green-500">Done </p>
+        </div>
+      ) : (
+        <div>
+          <p className="text-red-500">pending</p>
+        </div>
+      )}
       <p>{description}</p>
       <div className="space-x-2">
         <Button
