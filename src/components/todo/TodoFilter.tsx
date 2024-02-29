@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,25 +10,29 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-class TodoFilter extends Component {
-  render() {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">Open</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
-}
+const TodoFilter = () => {
+  const [position, setPosition] = useState("bottom");
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          className="mx-2 bg-primary-gradient font-semibold text-xl text-black-500"
+          variant="outline"
+        >
+          Filter Todo
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Filter To dos</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuRadioItem value="high">High</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="medium">Medium</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="low">Low</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export default TodoFilter;

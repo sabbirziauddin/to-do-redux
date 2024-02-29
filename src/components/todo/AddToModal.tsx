@@ -1,9 +1,7 @@
-import React, { Component } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,43 +10,71 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
-class AddToModal extends Component {
-  render() {
-    return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="mx-2 bg-primary-gradient font-semibold text-xl text-black-500">
-            Add Todo
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
+import React, { FormEvent, useState } from "react";
+import { useAppDispatch } from "@/redux/hook";
+import { addTodo } from "@/redux/features/todoSlice";
+import { DialogClose } from "@radix-ui/react-dialog";
+
+const AddToModal = () => {
+  const [task, setTask] = useState("");
+  const [description, setDescription] = useState("");
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const todoDetail = {
+      id: Date.now(),
+      task: task,
+      description: description,
+    };
+    dispatch(addTodo(todoDetail));
+    //console.log(task, description);
+  };
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="mx-2 bg-primary-gradient font-semibold text-xl text-black-500">
+          Add Todo
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add Todo's</DialogTitle>
+          <DialogDescription>To do i want to finish today</DialogDescription>
+        </DialogHeader>
+        <form onSubmit={onSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
+              <Label htmlFor="Task" className="text-right">
+                Task
               </Label>
-              <Input id="name" value="Pedro Duarte" className="col-span-3" />
+              <Input
+                onBlur={(e) => setTask(e.target.value)}
+                id="name"
+                className="col-span-3"
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
+              <Label htmlFor="Description" className="text-right">
+                Description
               </Label>
-              <Input id="username" value="@peduarte" className="col-span-3" />
+              <Input
+                onBlur={(e) => setDescription(e.target.value)}
+                id="username"
+                className="col-span-3"
+              />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-}
+          <div className="flex justify-end">
+            <DialogClose asChild>
+              <Button type="submit">Save changes</Button>
+            </DialogClose>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default AddToModal;
