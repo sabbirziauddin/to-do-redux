@@ -28,6 +28,28 @@ export const todoSlice = createSlice({
       const task = state.todos.find((item) => item.id == action.payload);
       task!.isCompleted = !task?.isCompleted;
     }, // Add a comma here
+    /*  toggleState: (state, action: PayloadAction<number>) => {
+      const taskId = action.payload;
+      const taskIndex = state.todos.findIndex((item) => item.id === taskId);
+
+      if (taskIndex !== -1) {
+        const task = state.todos[taskIndex];
+        task.isCompleted = !task.isCompleted;
+
+        // If the task status is toggled to completed, move it to the end
+        if (task.isCompleted) {
+          state.todos.push(state.todos.splice(taskIndex, 1)[0]);
+        } else {
+          // If the task status is toggled to pending, move it to the beginning
+          const pendingTasks = state.todos.filter((item) => !item.isCompleted);
+          state.todos = [
+            task,
+            ...pendingTasks,
+            ...state.todos.filter((item) => item.isCompleted),
+          ];
+        }
+      }
+    }, */
   },
 });
 
